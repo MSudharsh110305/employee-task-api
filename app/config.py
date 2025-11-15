@@ -13,7 +13,15 @@ class Config:
     
     # Security
     SECRET_KEY = os.getenv('SECRET_KEY', 'dev-secret-key-fallback')
-    
+
+    # JWT Configuration
+    JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY', SECRET_KEY)
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)
+    JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=30)
+    JWT_TOKEN_LOCATION = ['headers']
+    JWT_HEADER_NAME = 'Authorization'
+    JWT_HEADER_TYPE = 'Bearer'
+
     # Database - Use absolute path for SQLite
     SQLALCHEMY_DATABASE_URI = os.getenv(
         'DATABASE_URL', 
@@ -44,13 +52,22 @@ class DevelopmentConfig(Config):
 
 class ProductionConfig(Config):
     """Production environment configuration."""
-    
+
     DEBUG = False
     TESTING = False
-    
+
     # Production database (PostgreSQL from Render/Railway)
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
-    
+    # Fix postgres:// to postgresql:// for SQLAlchemy 1.4+
+    @staticmethod
+    def get_database_uri():
+        """Get database URI with postgres:// -> postgresql:// fix."""
+        uri = os.getenv('DATABASE_URL')
+        if uri and uri.startswith('postgres://'):
+            uri = uri.replace('postgres://', 'postgresql://', 1)
+        return uri
+
+    SQLALCHEMY_DATABASE_URI = get_database_uri.__func__()
+
     # Force HTTPS in production
     PREFERRED_URL_SCHEME = 'https'
 
