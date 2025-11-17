@@ -2,6 +2,7 @@
 Employee API routes for CRUD operations.
 """
 from flask import Blueprint, request, jsonify
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from marshmallow import ValidationError
 from app.services.employee_service import EmployeeService
 from app.schemas.employee_schema import (
@@ -9,12 +10,14 @@ from app.schemas.employee_schema import (
     employees_schema,
     employee_update_schema
 )
+from app.auth.decorators import admin_required, manager_required
 
 # Create blueprint
 bp = Blueprint('employees', __name__, url_prefix='/api/employees')
 
 
 @bp.route('', methods=['GET'])
+@jwt_required()
 def get_employees():
     """
     Get all employees with pagination and filtering.
@@ -71,6 +74,7 @@ def get_employees():
 
 
 @bp.route('/<int:employee_id>', methods=['GET'])
+@jwt_required()
 def get_employee(employee_id):
     """
     Get a single employee by ID.
@@ -107,9 +111,12 @@ def get_employee(employee_id):
 
 
 @bp.route('', methods=['POST'])
+@jwt_required()
+@manager_required()
 def create_employee():
     """
     Create a new employee.
+    Requires: Manager or Admin role
     
     Request Body:
         JSON object with employee data
@@ -154,9 +161,12 @@ def create_employee():
 
 
 @bp.route('/<int:employee_id>', methods=['PUT'])
+@jwt_required()
+@manager_required()
 def update_employee(employee_id):
     """
     Update an existing employee.
+    Requires: Manager or Admin role
     
     Args:
         employee_id (int): Employee ID
@@ -211,9 +221,12 @@ def update_employee(employee_id):
 
 
 @bp.route('/<int:employee_id>', methods=['DELETE'])
+@jwt_required()
+@admin_required()
 def delete_employee(employee_id):
     """
     Delete an employee.
+    Requires: Admin role
     
     Args:
         employee_id (int): Employee ID
@@ -244,6 +257,7 @@ def delete_employee(employee_id):
 
 
 @bp.route('/<int:employee_id>/tasks', methods=['GET'])
+@jwt_required()
 def get_employee_tasks(employee_id):
     """
     Get all tasks assigned to a specific employee.
