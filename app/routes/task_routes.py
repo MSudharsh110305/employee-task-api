@@ -2,6 +2,7 @@
 Task API routes for CRUD operations.
 """
 from flask import Blueprint, request, jsonify
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from marshmallow import ValidationError
 from app.services.task_service import TaskService
 from app.schemas.task_schema import (
@@ -9,12 +10,14 @@ from app.schemas.task_schema import (
     tasks_schema,
     task_update_schema
 )
+from app.auth.decorators import admin_required, manager_required
 
 # Create blueprint
 bp = Blueprint('tasks', __name__, url_prefix='/api/tasks')
 
 
 @bp.route('', methods=['GET'])
+@jwt_required()
 def get_tasks():
     """
     Get all tasks with pagination and filtering.
@@ -78,6 +81,7 @@ def get_tasks():
 
 
 @bp.route('/<int:task_id>', methods=['GET'])
+@jwt_required()
 def get_task(task_id):
     """
     Get a single task by ID.
@@ -119,9 +123,12 @@ def get_task(task_id):
 
 
 @bp.route('', methods=['POST'])
+@jwt_required()
+@manager_required()
 def create_task():
     """
     Create a new task.
+    Requires: Manager or Admin role
     
     Request Body:
         JSON object with task data
@@ -165,6 +172,7 @@ def create_task():
 
 
 @bp.route('/<int:task_id>', methods=['PUT'])
+@jwt_required()
 def update_task(task_id):
     """
     Update an existing task.
@@ -221,9 +229,12 @@ def update_task(task_id):
 
 
 @bp.route('/<int:task_id>', methods=['DELETE'])
+@jwt_required()
+@admin_required()
 def delete_task(task_id):
     """
     Delete a task.
+    Requires: Admin role
     
     Args:
         task_id (int): Task ID
