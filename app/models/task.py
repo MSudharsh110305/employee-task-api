@@ -73,8 +73,8 @@ class Task(db.Model):
             'priority': self.priority,
             'employee_id': self.employee_id,
             'deadline': self.deadline.isoformat() if self.deadline else None,
-            'created_at': self.created_at.isoformat(),
-            'updated_at': self.updated_at.isoformat()
+            'created_at': self.created_at.isoformat() if self.created_at else None,
+            'updated_at': self.updated_at.isoformat() if self.updated_at else None
         }
         
         if include_employee and self.assigned_employee:

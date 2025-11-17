@@ -55,8 +55,8 @@ class Employee(db.Model):
             'department': self.department,
             'position': self.position,
             'hire_date': self.hire_date.isoformat() if self.hire_date else None,
-            'created_at': self.created_at.isoformat(),
-            'updated_at': self.updated_at.isoformat()
+            'created_at': self.created_at.isoformat() if self.created_at else None,
+            'updated_at': self.updated_at.isoformat() if self.updated_at else None
         }
         
         if include_tasks:
