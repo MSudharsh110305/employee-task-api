@@ -22,11 +22,11 @@ if __name__ == '__main__':
     debug = os.getenv('FLASK_DEBUG', 'True').lower() == 'true'
     
     print(f"\n{'='*60}")
-    print(f"🚀 Employee-Task Management API")
+    print(f"Employee-Task Management API")
     print(f"{'='*60}")
-    print(f"📍 Running on: http://{host}:{port}")
-    print(f"🔧 Environment: {os.getenv('FLASK_ENV', 'development')}")
-    print(f"🐛 Debug Mode: {debug}")
+    print(f"Running on: http://{host}:{port}")
+    print(f"Environment: {os.getenv('FLASK_ENV', 'development')}")
+    print(f"Debug Mode: {debug}")
     print(f"{'='*60}\n")
     print("Available endpoints:")
     print("  - GET    /api/employees")
