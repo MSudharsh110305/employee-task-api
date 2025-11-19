@@ -6,14 +6,15 @@ from app import create_app, db
 from app.models import Employee, Task
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope='function')
 def app():
     """Create application instance for testing."""
     app = create_app('testing')
-    return app
+    with app.app_context():
+        yield app
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope='function')
 def client(app):
     """Create test client."""
     return app.test_client()
@@ -25,11 +26,12 @@ def init_database(app):
     with app.app_context():
         # Create tables
         db.create_all()
-        
+
         yield db
-        
+
         # Clean up after test
-        db.session.remove()
+        db.session.rollback()
+        db.session.close()
         db.drop_all()
 
 
