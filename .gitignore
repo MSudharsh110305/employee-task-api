@@ -1,13 +1,34 @@
-# Virtual Environment
-venv/
-env/
-ENV/
-
-# Python
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv/
+env.bak/
+venv.bak/
 
 # Flask
 instance/
@@ -15,25 +36,95 @@ instance/
 
 # Environment Variables
 .env
+.env.local
+.env.*.local
 .flaskenv
 
 # Database
 *.db
 *.sqlite
 *.sqlite3
+*.db-journal
 
-# IDE
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Flask-Migrate
+migrations/versions/*.pyc
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE / Editor specific files
 .vscode/
 .idea/
 *.swp
 *.swo
+*~
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
 
-# Testing
-.pytest_cache/
-.coverage
-htmlcov/
-.tox/
-
-# OS
+# OS specific
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
+
+
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+temp/
+*.bak
+*.swp
+
+# Commit automation scripts (never commit these)
+make_realistic_commits.sh
+create_realistic_commits.ps1
+*_commits.sh
+*_commits.ps1
+
+# Documentation build
+docs/_build/
+site/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Node modules (if any)
+node_modules/
+
+# Docker
+*.pid
+*.seed
+*.pid.lock
