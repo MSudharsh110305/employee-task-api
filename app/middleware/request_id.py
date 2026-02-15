@@ -31,5 +31,7 @@ def init_request_id(app):
     @app.after_request
     def add_request_id_header(response):
         """Add request ID to response headers."""
-        response.headers['X-Request-ID'] = g.request_id
+        # Use getattr to safely access request_id, generate new one if missing
+        request_id = getattr(g, 'request_id', str(uuid.uuid4()))
+        response.headers['X-Request-ID'] = request_id
         return response
