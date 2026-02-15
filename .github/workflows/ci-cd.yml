@@ -19,8 +19,9 @@ jobs:
       postgres:
         image: postgres:15
         env:
+          # Test-only credentials for CI environment (not a security risk)
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_PASSWORD: postgres  # ggignore
           POSTGRES_DB: test_db
         options: >-
           --health-cmd pg_isready
