@@ -29,19 +29,15 @@ def init_security_headers(app):
     }
 
     # Initialize Talisman with security headers
+    # Using minimal configuration for maximum compatibility across Talisman versions
     Talisman(
         app,
         force_https=force_https,
         strict_transport_security=force_https,
         strict_transport_security_max_age=31536000,  # 1 year
-        strict_transport_security_include_subdomains=True,
         content_security_policy=csp,
-        content_security_policy_nonce_in=['script-src'],
         referrer_policy='strict-origin-when-cross-origin',
-        content_type_options=True,
-        frame_options='DENY',
         session_cookie_secure=force_https,
         session_cookie_http_only=True,
-        session_cookie_samesite='Lax',
         force_file_save=False
     )
