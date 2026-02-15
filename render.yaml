@@ -7,9 +7,11 @@ services:
     region: oregon
     plan: free
     buildCommand: "pip install -r requirements.txt"
-    startCommand: "gunicorn wsgi:app --workers 4 --timeout 120"
+    startCommand: "gunicorn wsgi:app --workers 2 --worker-class sync --timeout 120 --graceful-timeout 30 --log-level info --access-logfile - --error-logfile -"
     healthCheckPath: /health
     envVars:
+      - key: FLASK_APP
+        value: wsgi:app
       - key: FLASK_ENV
         value: production
       - key: SECRET_KEY
@@ -21,7 +23,7 @@ services:
           name: employee-task-db
           property: connectionString
       - key: PYTHON_VERSION
-        value: 3.11.0
+        value: 3.13.7
     autoDeploy: true
 
 # Database

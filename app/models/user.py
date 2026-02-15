@@ -63,7 +63,8 @@ class User(db.Model):
         Args:
             password (str): Plain text password
         """
-        self.password_hash = generate_password_hash(password, method='pbkdf2:sha256')
+        # Werkzeug 3.x requires explicit iteration count or uses scrypt by default
+        self.password_hash = generate_password_hash(password)
 
     def check_password(self, password: str) -> bool:
         """

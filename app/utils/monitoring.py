@@ -19,7 +19,7 @@ def init_sentry(app):
         sentry_sdk.init(
             dsn=sentry_dsn,
             integrations=[FlaskIntegration()],
-            environment=app.config['ENV'],
+            environment=app.config.get('ENVIRONMENT', 'development'),
             traces_sample_rate=0.1,  # 10% of transactions for performance monitoring
             send_default_pii=False,  # Don't send personally identifiable information
             before_send=before_send_filter,

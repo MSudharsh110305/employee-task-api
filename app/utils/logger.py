@@ -57,7 +57,7 @@ def setup_logging(app):
     # Log application startup
     app.logger.info(
         'Application started',
-        extra={'environment': app.config.get('ENV', 'development')}
+        extra={'environment': app.config.get('ENVIRONMENT', 'development')}
     )
 
     # Request logging
@@ -67,7 +67,7 @@ def setup_logging(app):
         app.logger.info(
             'Request started',
             extra={
-                'environment': app.config.get('ENV', 'development'),
+                'environment': app.config.get('ENVIRONMENT', 'development'),
                 'query_params': dict(request.args)
             }
         )
@@ -78,7 +78,7 @@ def setup_logging(app):
         app.logger.info(
             'Request completed',
             extra={
-                'environment': app.config.get('ENV', 'development'),
+                'environment': app.config.get('ENVIRONMENT', 'development'),
                 'status_code': response.status_code
             }
         )

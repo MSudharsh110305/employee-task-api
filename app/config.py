@@ -7,10 +7,13 @@ from datetime import timedelta
 
 class Config:
     """Base configuration with common settings."""
-    
+
     # Get the base directory (project root)
     BASE_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-    
+
+    # Environment (replaces deprecated Flask ENV)
+    ENVIRONMENT = os.getenv('FLASK_ENV', 'development')
+
     # Security
     SECRET_KEY = os.getenv('SECRET_KEY', 'dev-secret-key-fallback')
 
@@ -67,6 +70,14 @@ class ProductionConfig(Config):
         return uri
 
     SQLALCHEMY_DATABASE_URI = get_database_uri.__func__()
+
+    # Database connection pool settings for production
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        "pool_pre_ping": True,        # Test connections before using
+        "pool_recycle": 300,           # Recycle connections after 5 minutes
+        "pool_size": 10,               # Connection pool size
+        "max_overflow": 5              # Max overflow connections
+    }
 
     # Force HTTPS in production
     PREFERRED_URL_SCHEME = 'https'

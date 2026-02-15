@@ -13,7 +13,7 @@ def init_security_headers(app):
         app: Flask application instance
     """
     # Only enforce HTTPS in production
-    force_https = app.config.get('ENV', 'development') == 'production'
+    force_https = app.config.get('ENVIRONMENT', 'development') == 'production'
 
     # Content Security Policy
     csp = {
